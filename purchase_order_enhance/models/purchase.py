@@ -14,14 +14,13 @@ class PurchaseOrder(models.Model):
         'Active', default=True,
         help="If unchecked, it will allow you to hide the purchase order without removing it.")
 
-    # @api.multi
-    # def action_toggle_active(self):
-    #     for order in self:
-    #         logging.warning(order.state)
-    #         if order.state not in ['cancel', 'done']:
-    #             raise UserError("Only 'Cancel' or 'Lock' Purchase Order is allowed ")
-    #         else:
-    #             order.active = not order.active
+    @api.multi
+    def action_toggle_active(self):
+        for order in self:
+            if order.state not in ['cancel', 'done']:
+                raise UserError("Only 'Cancel' or 'Lock' Purchase Order is allowed ")
+            else:
+                order.active = not order.active
 
     @api.multi
     def write(self, values):
@@ -31,18 +30,16 @@ class PurchaseOrder(models.Model):
         # Check user group
         self._check_archive_user_role(values)
 
-        return super().write(values)
+        return super(PurchaseOrder, self).write(values)
 
     @api.model
     def archive_purchase_order(self):
-        warning("THIS IS MY CRON")
         self._check_old_purchase_order()
 
     # Check archived purchase order status function
     def _check_archived_state(self, values):
         if 'active' in values:
             for order in self:
-                warning(order.state)
                 if order.state not in ['cancel', 'done']:
                     raise UserError("Only 'Cancel' or 'Lock' Purchase Order is allowed ")
 

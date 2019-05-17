@@ -5,8 +5,8 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
     # _name = 'purchase.order.enhancement.config.settings'
 
-    lifespan_title = fields.Boolean(string="Config lifespan", default=False)
-    lifespan = fields.Integer(string="Lifespan", default=3)
+    lifespan_title = fields.Boolean(string="Config lifespan", default=False, help='Life span title for displaying in view')
+    lifespan = fields.Integer(string="Lifespan", default=3, help='Lifespan value')
     lifespan_unit = fields.Selection(
         [
             ('seconds', 'Seconds'),
@@ -16,7 +16,7 @@ class ResConfigSettings(models.TransientModel):
             ('months', 'Months'),
             ('years', 'Years'),
         ], string="Unit", default="months",
-        help='Lifespan unit '
+        help='Lifespan unit (Seconds, Minutes, Hours, Days, Months, Years) '
     )
 
     def get_values(self):

@@ -22,7 +22,7 @@ class PurchasePortal(http.Controller):
         purchase_order_ids = kwargs.get('orders')
 
         # Search purchase order with the list of po_ids
-        orders = request.env['purchase.order'].browse(purchase_order_ids).sudo()
+        orders = request.env['purchase.order'].sudo().browse(purchase_order_ids)
 
         for order in orders:
             try:

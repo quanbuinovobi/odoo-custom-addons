@@ -1,11 +1,10 @@
 {
     'name': 'Purchase Order Enhancement',
     'description' : 'Custom Purchase App',
-    'author ' : 'Quân Bùi',
+    'author ' : 'Quan Bui',
     'depends' : ['purchase'],
     'application' : True,
     'data' : [
-        'security/purchase_security.xml',
         'views/purchase_views.xml',
         'views/purchase_assets.xml',
         'views/res_config_settings_views.xml',

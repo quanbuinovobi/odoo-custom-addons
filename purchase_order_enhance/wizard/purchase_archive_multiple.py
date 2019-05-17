@@ -7,27 +7,18 @@ class archiveMultiplePurchaseOrder(models.TransientModel):
     _description = "Archive multiple purchase order wizard"
 
     purchase_order_ids = fields.Many2many(
-            'purchase.order',
-            string=""
+            'purchase.order'
             )
-    # name = fields.Char(required=True, index=True, copy=False)
+
     active = fields.Boolean(
         'Active', default=True,
         help="If unchecked, it will allow you to hide the purchase order without removing it.")
-    state = fields.Selection([
-        ('draft', 'RFQ'),
-        ('sent', 'RFQ Sent'),
-        ('to approve', 'To Approve'),
-        ('purchase', 'Purchase Order'),
-        ('done', 'Locked'),
-        ('cancel', 'Cancelled')
-    ], string='Status', readonly=True, index=True, copy=False, default='draft', track_visibility='onchange')
 
     @api.model
     def default_get(self, field_names):
         defaults = super().default_get(field_names)
-        purchase_order_ids = self.env.context['active_ids']
-        logging.warning(purchase_order_ids)
+        # If self.env.context['active_ids'] can raise error
+        purchase_order_ids = self.env.context.get('active_ids', [])
 
         # Raise error when purchase orders are not done and cancel
         self._check_purchase_order_state(purchase_order_ids)

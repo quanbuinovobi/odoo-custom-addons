@@ -13,6 +13,7 @@ var US_Phone = Phone.extend({
         let phoneNum = this._getValue();
         phoneNum = PhoneNumUsFormat(phoneNum);
         this.$input.val(phoneNum);
+    //  Is there other way to pass value to front end ?
     },
 
 });
